@@ -264,8 +264,20 @@ const submitQuiz = () => {
     } else {
         wrongAns++;
     }
+    var optionselected = document.querySelector('input[name="option"]:checked');
+
+    let profilee = {
+        optionselected: optionselected
+    };
+    console.log(profilee.optionselected.id);
+    localStorage.setItem(`useranswer${index}`, JSON.stringify(profilee.optionselected.id))
+
+
     index++;
     loadQuestion();
+
+
+
     return;
 }
 
@@ -311,15 +323,60 @@ const endQuiz = () => {
 
 
     `;
+
+    let endscore = {
+        rightAnswers: rightAns,
+        WrongAnswers: wrongAns,
+        TotalPercentage: percentage
+    }
+
+    localStorage.setItem(`Result_For_Modern-Art_Quiz`, JSON.stringify(endscore));
+
+
 }
 
+let currentindex = index;
+const prevque = () => {
+    if (index >= 1) {
+        index--;
+        loadQuestion();
+        const questiondataa = data.modernart[index];
+        let vale = localStorage.getItem(`useranswer${index}`);
+        var val = JSON.parse(vale);
+        var options = document.getElementsByName("option");
+        var myi = val.split("n");
+        for (var i = 0; i < options.length; i++) {
+            if (options[i].id == val) {
+                options[i].checked = true;
+            }
+        }
+        console.log(myi[0]);
+        console.log(options)
+    }
 
-const prevcase = () => {
-    index--;
+
+
+}
+
+const nextque = () => {
+    if (index < total - 1)
+        index++;
     loadQuestion();
+    loadQuestion();
+    const questiondataa = data.modernart[index];
+    let vale = localStorage.getItem(`useranswer${index}`);
+    var val = JSON.parse(vale);
+    var options = document.getElementsByName("option");
+    var myi = val.split("n");
+    for (var i = 0; i < options.length; i++) {
+        if (options[i].id == val) {
+            options[i].checked = true;
+        }
+    }
+    console.log(myi[0]);
+    console.log(options);
 
 }
-
 
 
 loadQuestion();
